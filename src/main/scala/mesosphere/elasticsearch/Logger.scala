@@ -1,4 +1,4 @@
-package mesosphere.cassandra
+package mesosphere.elasticsearch
 
 import org.apache.log4j.{Priority, Level, Logger => Log4jLogger}
 

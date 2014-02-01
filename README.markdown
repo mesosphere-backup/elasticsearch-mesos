@@ -36,18 +36,21 @@ Adjust this if you want the nodes to retrieve the distribution from somewhere el
 
 Default: ```http://downloads.mesosphere.io/elasticsearch/elasticsearch-mesos-0.90.10-1.tgz```
 
-#### mesos.master.url  
+#### mesos.master.url
+
 Change this setting to point to your Mesos Master. The default works for a local Mesos install.
 
 Default: ```zk://localhost:2181/mesos```
 
 #### java.library.path
+
 Change this to the path to where the mesos native library is installed.
 
-Default: ```/usr/local/lib/libmesos.so```
+Default: ```/usr/local/lib```
 
 #### elasticsearch.noOfHwNodes
-How many hardware nodes we want to run this Cassandra cluster on. Cassandra requires to have the same ports for all of its cluster members. This prevents multiple nodes from the same Cassandra cluster to run on a single physical node.
+
+How many hardware nodes we want to run this cluster on.  This prevents multiple nodes from the same cluster to run on a single physical node.
 
 Default: ```1```
 

@@ -1,4 +1,4 @@
-package mesosphere.cassandra
+package mesosphere.elasticsearch
 
 import scala.collection.mutable
 

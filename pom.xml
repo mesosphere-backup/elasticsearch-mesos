@@ -5,19 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>mesosphere</groupId>
-    <artifactId>cassandra-mesos</artifactId>
-    <version>${cassandra.version}-${cassandra-mesos.version}</version>
+    <artifactId>elasticsearch-mesos</artifactId>
+    <version>${elasticsearch.version}-${elasticsearch-mesos.version}</version>
 
     <properties>
         <mesos-utils.version>0.0.6</mesos-utils.version>
 
-        <!-- Cassandra Mesos version. Looks like a build number from Maven's perspective-->
-        <cassandra-mesos.version>1</cassandra-mesos.version>
+        <!-- Elasticsearch Mesos version. Looks like a build number from Maven's perspective-->
+        <elasticsearch-mesos.version>1</elasticsearch-mesos.version>
 
         <!-- language & dependency versions -->
         <java.abi>1.6</java.abi>
         <scala.version>2.10.3</scala.version>
-        <cassandra.version>0.90.10</cassandra.version>
+        <elasticsearch.version>0.90.10</elasticsearch.version>
         <mesos.version>0.15.0</mesos.version>
         <logback.version>1.0.9</logback.version>
 
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>${cassandra.version}</version>
+            <version>${elasticsearch.version}</version>
             <scope>provided</scope>
         </dependency>
 

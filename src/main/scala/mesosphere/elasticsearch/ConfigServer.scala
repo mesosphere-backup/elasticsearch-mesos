@@ -1,4 +1,4 @@
-package mesosphere.cassandra
+package mesosphere.elasticsearch
 
 import org.eclipse.jetty.server.{Request, Server}
 import org.eclipse.jetty.server.handler.AbstractHandler
@@ -8,27 +8,27 @@ import scala.io.Source
 import scala.collection.mutable
 import java.net.URI
 
-class ConfigServer(port: Int, cassConfigDir: String, seedNodes: mutable.Set[String]) extends Logger {
+class ConfigServer(port: Int, configDir: String, seedNodes: mutable.Set[String]) extends Logger {
 
   val server = new Server(port)
-  server.setHandler(new ServeCassConfigHandler)
+  server.setHandler(new ServeConfigHandler)
   server.start()
 
   def stop() {
     server.stop()
   }
 
-  class ServeCassConfigHandler extends AbstractHandler {
+  class ServeConfigHandler extends AbstractHandler {
 
     def handle(target: String, baseRequest: Request, request: HttpServletRequest, response: HttpServletResponse) = {
 
       info(s"Serving config resource: ${target}")
 
       val plainFilename = new File(new URI(target).getPath).getName // don't ask...
-      val confFile = new File(s"${cassConfigDir}/${plainFilename}")
+      val confFile = new File(s"${configDir}/${plainFilename}")
 
       if (!confFile.exists()){
-        throw new FileNotFoundException(s"Couldn't file config file: ${cassConfigDir}/${plainFilename}. Please make sure it exists.")
+        throw new FileNotFoundException(s"Couldn't file config file: ${configDir}/${plainFilename}. Please make sure it exists.")
       }
 
       val fileContent = Source.fromFile(confFile).getLines()
