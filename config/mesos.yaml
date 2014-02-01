@@ -5,10 +5,10 @@ mesos.master.url: 'zk://localhost:2181/mesos'
 
 # Where we can find the Mesos library
 # Typical Linux/Unix Mesos lib path
-java.library.path: '/usr/local/lib'
+java.library.path: '/usr/local/lib/libmesos.so'
 
 # Typical OS X mesos path
-#java.library.path: '/usr/local/lib/libmesos.dylib'
+# java.library.path: '/usr/local/lib/libmesos.dylib'
 
 # No of HW nodes we want it to run on
 # Driver will block until we have enough nodes
