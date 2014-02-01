@@ -46,7 +46,7 @@ Change this to the path to where the mesos native library is installed.
 
 Default: ```/usr/local/lib/libmesos.so```
 
-#### cassandra.noOfHwNodes
+#### elasticsearch.noOfHwNodes
 How many hardware nodes we want to run this Cassandra cluster on. Cassandra requires to have the same ports for all of its cluster members. This prevents multiple nodes from the same Cassandra cluster to run on a single physical node.
 
 Default: ```1```
