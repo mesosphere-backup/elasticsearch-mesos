@@ -16,7 +16,7 @@ log/
 target/
 
 # Cassandra mesos distro
-cassandra-mesos-*
+elasticsearch-mesos-*
 
 # backup files
 *~
