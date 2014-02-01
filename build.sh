@@ -20,7 +20,7 @@ mv elasticsearch-* elasticsearch-mesos-${PROJVERSION}
 cp bin/* elasticsearch-mesos-${PROJVERSION}/bin
 chmod u+x elasticsearch-mesos-${PROJVERSION}/bin/*
 
-cp conf/* elasticsearch-mesos-${PROJVERSION}/conf
+cp config/* elasticsearch-mesos-${PROJVERSION}/config
 cp target/*.jar elasticsearch-mesos*/lib
 
 tar czf elasticsearch-mesos-${PROJVERSION}.tgz elasticsearch-mesos-${PROJVERSION}
