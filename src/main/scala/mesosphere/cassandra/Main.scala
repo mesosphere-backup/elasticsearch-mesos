@@ -29,10 +29,6 @@ object Main extends App with Logger {
   val masterUrl = mesosConf.getOrElse("mesos.master.url",
     throw new MissingArgumentException("Please specify the mesos.master.url")).toString
 
-  val javaLibPath = mesosConf.getOrElse("java.library.path",
-    "/usr/local/lib/libmesos.so").toString
-  System.setProperty("java.library.path", javaLibPath)
-
   val numberOfHwNodes = mesosConf.getOrElse("elasticsearch.noOfHwNodes", 1).toString.toInt
 
   val confServerPort = mesosConf.getOrElse("elasticsearch.confServer.port", 8282).toString.toInt

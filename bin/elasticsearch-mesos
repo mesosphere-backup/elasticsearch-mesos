@@ -4,8 +4,8 @@ set -o errexit -o pipefail
 FRAMEWORK_HOME=`dirname $0`/..
 CONFIG_DIR=$FRAMEWORK_HOME"/config"
 
-# Set the MESOS_NATIVE_LIBRARY based on mesos.yaml
-export MESOS_NATIVE_LIBRARY=$(sed -e 's/:[^:\/\/]/="/g;s/$/"/g;s/ *=/=/g' "$CONFIG_DIR"/mesos.yml | tr -d $'\'' | grep -v \# | grep java.library.path | sed 's/java.library.path=//g;s/"//g')
+# Set the Java native library path based on mesos.yml
+JAVA_LIB_PATH=$(sed -e 's/:[^:\/\/]/="/g;s/$/"/g;s/ *=/=/g' "$CONFIG_DIR"/mesos.yml | tr -d $'\'' | grep -v \# | grep java.library.path | sed 's/java.library.path=//g;s/"//g')
 
 for jar in "$FRAMEWORK_HOME"/lib/*.jar; do
     CLASSPATH="$CLASSPATH:$jar"
@@ -15,5 +15,5 @@ for jar in "$FRAMEWORK_HOME"/target/*.jar; do
     CLASSPATH="$CLASSPATH:$jar"
 done
 
-# Start Cassandra on Mesos
-java -classpath $CLASSPATH mesosphere.cassandra.Main "$@"
+# Start Elasticsearch on Mesos
+java -classpath $CLASSPATH -Djava.library.path=$JAVA_LIB_PATH mesosphere.cassandra.Main "$@"
