@@ -19,7 +19,7 @@ import org.apache.log4j.{Level, BasicConfigurator}
 object Main extends App with Logger {
 
   val yaml = new Yaml()
-  val mesosConf = yaml.load(new FileReader("conf/mesos.yaml"))
+  val mesosConf = yaml.load(new FileReader("config/mesos.yaml"))
     .asInstanceOf[util.LinkedHashMap[String, Any]].asScala
 
   // Get configs out of the mesos.yaml file
