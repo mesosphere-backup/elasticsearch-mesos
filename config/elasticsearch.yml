@@ -140,29 +140,29 @@
 
 # Path to directory containing configuration (this file and logging.yml):
 #
-# path.conf: /path/to/conf
+path.conf: es/conf
 
 # Path to directory where to store index data allocated for this node.
 #
-# path.data: /path/to/data
+path.data: es/data
 #
 # Can optionally include more than one location, causing data to be striped across
 # the locations (a la RAID 0) on a file level, favouring locations with most free
 # space on creation. For example:
 #
-# path.data: /path/to/data1,/path/to/data2
+#path.data: /path/to/data1,/path/to/data2
 
 # Path to temporary files:
 #
-# path.work: /path/to/work
+path.work: es/work
 
 # Path to log files:
 #
-# path.logs: /path/to/logs
+path.logs: es/logs
 
 # Path to where plugins are installed:
 #
-# path.plugins: /path/to/plugins
+path.plugins: es/plugins
 
 
 #################################### Plugin ###################################
