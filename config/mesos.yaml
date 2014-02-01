@@ -5,7 +5,7 @@ mesos.master.url: 'zk://localhost:2181/mesos'
 
 # Where we can find the Mesos library
 # Typical Linux/Unix Mesos lib path
-java.library.path: '/usr/local/lib/libmesos.so'
+java.library.path: '/usr/local/lib'
 
 # Typical OS X mesos path
 #java.library.path: '/usr/local/lib/libmesos.dylib'
