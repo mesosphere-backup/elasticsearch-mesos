@@ -66,7 +66,7 @@ object Main extends App with Logger {
   scheduler.waitUnitInit
 
   // Start serving the ElasticMesos config
-  val configServer = new ConfigServer(confServerPort, "conf", scheduler.nodeSet)
+  val configServer = new ConfigServer(confServerPort, "config", scheduler.nodeSet)
 
   info("ElasticSearch nodes starting on: " + scheduler.nodeSet.mkString(","))
 
