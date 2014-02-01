@@ -11,9 +11,5 @@ for jar in "$FRAMEWORK_HOME"/lib/*.jar; do
     CLASSPATH="$CLASSPATH:$jar"
 done
 
-for jar in "$FRAMEWORK_HOME"/target/*.jar; do
-    CLASSPATH="$CLASSPATH:$jar"
-done
-
 # Start Elasticsearch on Mesos
-java -classpath $CLASSPATH -Djava.library.path=$JAVA_LIB_PATH mesosphere.cassandra.Main "$@"
+java -classpath $CLASSPATH -Djava.library.path=$JAVA_LIB_PATH mesosphere.elasticsearch.Main "$@"

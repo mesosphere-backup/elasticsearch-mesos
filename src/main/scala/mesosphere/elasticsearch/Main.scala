@@ -1,4 +1,4 @@
-package mesosphere.cassandra
+package mesosphere.elasticsearch
 
 import org.yaml.snakeyaml.Yaml
 import java.io.FileReader

@@ -1,4 +1,4 @@
-package mesosphere.cassandra
+package mesosphere.elasticsearch
 
 import java.util
 import mesosphere.mesos.util.{FrameworkInfo, ScalarResource}
