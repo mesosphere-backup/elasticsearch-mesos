@@ -13,6 +13,7 @@ The driver will do all the heavy lifting like downloading Elasticsearch to the w
 - Access to a cluster running Apache Mesos version `0.15.0`+
 - Java
 - Maven
+- wget
 
 ## Tutorial
 
