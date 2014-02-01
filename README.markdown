@@ -10,13 +10,13 @@ The driver will do all the heavy lifting like downloading Elasticsearch to the w
 
 ## Prerequisites
 
-- Access to a cluster running Apache Mesos, version `0.14.2`+
+- Access to a cluster running Apache Mesos version `0.15.0`+
 - Java
 - Maven
 
 ## Tutorial
 
-1. Download the distribution from the Mesosphere [download server](http://downloads.mesosphere.io/elasticsearch/es-mesos-0.90.10.tgz).
+1. Download the distribution from the Mesosphere [download server](http://downloads.mesosphere.io/elasticsearch/elasticsearch-mesos-0.90.10-1.tgz).
 
 1. Untar it onto the driver machine   
    ```tar xzf es-mesos-*.tgz```
@@ -33,7 +33,7 @@ The driver will do all the heavy lifting like downloading Elasticsearch to the w
 ### mesos.executor.uri
 Adjust this if you want the nodes to retrieve the distribution from somewhere else
 
-Default: ```http://downloads.mesosphere.io/elasticsearch/es-mesos-0.90.10.tgz```
+Default: ```http://downloads.mesosphere.io/elasticsearch/elasticsearch-mesos-0.90.10-1.tgz```
 
 #### mesos.master.url  
 Change this setting to point to your Mesos Master. The default works for a local Mesos install.
@@ -41,9 +41,9 @@ Change this setting to point to your Mesos Master. The default works for a local
 Default: ```zk://localhost:2181/mesos```
 
 #### java.library.path
-Change this to the directory where the mesos libraries are installed.
+Change this to the path to where the mesos native library is installed.
 
-Default: ```/usr/local/lib```
+Default: ```/usr/local/lib/libmesos.so```
 
 #### cassandra.noOfHwNodes
 How many hardware nodes we want to run this Cassandra cluster on. Cassandra requires to have the same ports for all of its cluster members. This prevents multiple nodes from the same Cassandra cluster to run on a single physical node.
