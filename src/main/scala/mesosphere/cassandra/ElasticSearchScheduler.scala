@@ -74,7 +74,7 @@ class ElasticSearchScheduler(masterUrl: String,
       s"cd conf && rm elasticsearch.yaml " +
       s"&& wget http://${confServerHostName}:${confServerPort}/elasticsearch.yaml " +
       s"&& cd .. " +
-      s"&& bin/elasticsearch")
+      s"&& bin/elasticsearch -f")
 
     // Create all my resources
     val res = resources.map {
