@@ -26,14 +26,14 @@ The driver will do all the heavy lifting like downloading Elasticsearch to the w
 1. Edit ```conf/elasticsearch.yaml``` and replace it with your Elasticsearch settings.
 
 1. Start the driver to initiate launching Elasticsearch on Mesos    
-   <code>bin/cassandra-elasticsearch<code>
+   `bin/elasticsearch-mesos`
 
 ## Configuration Values
 
 ### mesos.executor.uri
 Adjust this if you want the nodes to retrieve the distribution from somewhere else
 
-Default: ```http://downloads.mesosphere.io/storm/cassandra-mesos-2.0.3.tgz```
+Default: ```http://downloads.mesosphere.io/elasticsearch/es-mesos-0.90.10.tgz```
 
 #### mesos.master.url  
 Change this setting to point to your Mesos Master. The default works for a local Mesos install.
