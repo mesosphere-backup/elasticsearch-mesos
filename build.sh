@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-# Our cassandra-mesos project version follows the Cassandra version number
+# Our elasticsearch-mesos project version follows the Cassandra version number
 PROJVERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[')
 CASSVERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=cassandra.version | grep -v '\[')
 

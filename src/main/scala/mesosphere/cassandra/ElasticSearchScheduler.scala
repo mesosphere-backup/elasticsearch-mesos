@@ -9,12 +9,12 @@ import scala.collection.mutable
 import java.util.concurrent.CountDownLatch
 
 /**
- * Mesos scheduler for Cassandra
+ * Mesos scheduler for ElasticSearch
  * Takes care of most of the "annoying things" like distributing binaries and configuration out to the nodes.
  *
  * @author erich<IDonLikeSpam>nachbar.biz
  */
-class CassandraScheduler(masterUrl: String,
+class ElasticSearchScheduler(masterUrl: String,
                          execUri: String,
                          confServerHostName: String,
                          confServerPort: Int,
@@ -27,15 +27,20 @@ class CassandraScheduler(masterUrl: String,
   var nodeSet = mutable.Set[String]()
 
   def error(driver: SchedulerDriver, message: String) {
+    error(message)
     //TODO erich implement
   }
 
   def executorLost(driver: SchedulerDriver, executorId: ExecutorID, slaveId: SlaveID, status: Int) {
+    warn(s"Executor lost: '${executorId.getValue}' " +
+      s"on slave '${slaveId.getValue}' " +
+      s"with status '${status}'")
+
     //TODO erich implement
   }
 
   def slaveLost(driver: SchedulerDriver, slaveId: SlaveID) {
-    //TODO erich implement
+    warn(s"Slave lost: '${slaveId.getValue}'")
   }
 
   def disconnected(driver: SchedulerDriver) {
@@ -43,14 +48,17 @@ class CassandraScheduler(masterUrl: String,
   }
 
   def frameworkMessage(driver: SchedulerDriver, executorId: ExecutorID, slaveId: SlaveID, data: Array[Byte]) {
-    //TODO erich implement
+    warn(s"FrameworkMessage from executor: '${executorId.getValue}' " +
+      s"on slave '${slaveId.getValue}'")
   }
 
   def statusUpdate(driver: SchedulerDriver, status: TaskStatus) {
     debug(s"received status update $status")
   }
 
-  def offerRescinded(driver: SchedulerDriver, offerId: OfferID) {}
+  def offerRescinded(driver: SchedulerDriver, offerId: OfferID) {
+    //TODO Implement
+  }
 
   // Blocks with CountDown latch until we have enough seed nodes.
   def waitUnitInit {
@@ -62,14 +70,18 @@ class CassandraScheduler(masterUrl: String,
     // Construct command to run
     val cmd = CommandInfo.newBuilder
       .addUris(CommandInfo.URI.newBuilder.setValue(execUri))
-      .setValue(s"cd cassandra-mesos* && cd conf && rm cassandra.yaml && wget http://${confServerHostName}:${confServerPort}/cassandra.yaml && cd .. && bin/cassandra -f")
+      .setValue(s"cd elasticsearch-mesos* && " +
+      s"cd conf && rm elasticsearch.yaml " +
+      s"&& wget http://${confServerHostName}:${confServerPort}/elasticsearch.yaml " +
+      s"&& cd .. " +
+      s"&& bin/elasticsearch")
 
     // Create all my resources
     val res = resources.map {
       case (k, v) => ScalarResource(k, v).toProto
     }
 
-    // Let's make sure we don't start multiple Cassandras from the same cluster on the same box.
+    // Let's make sure we don't start multiple ElasticSearches from the same cluster on the same box.
     // We can't hand out the same port multiple times.
     for (offer <- offers.asScala if isOfferGood(offer) && !haveEnoughNodes()) {
       debug(s"offer $offer")
@@ -155,7 +167,9 @@ class CassandraScheduler(masterUrl: String,
 
   def run() {
     info("Starting up...")
-    val driver = new MesosSchedulerDriver(this, FrameworkInfo("CassandraMesos").toProto, masterUrl)
+    val driver = new MesosSchedulerDriver(this, FrameworkInfo("ElasticSearch")
+      .toProto, masterUrl)
+
     driver.run().getValueDescriptor.getFullName
   }
 

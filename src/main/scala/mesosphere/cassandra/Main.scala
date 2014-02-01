@@ -1,6 +1,5 @@
 package mesosphere.cassandra
 
-import mesosphere.mesos.util.FrameworkInfo
 import org.yaml.snakeyaml.Yaml
 import java.io.FileReader
 import java.util
@@ -10,10 +9,12 @@ import java.net.InetAddress
 import org.apache.log4j.{Level, BasicConfigurator}
 
 /**
- * Mesos on Cassandra
+ * ElasticSearch on Mesos
  * Takes care of most of the "annoying things" like distributing binaries and configuration out to the nodes.
  *
  * @author erich<IDonLikeSpam>nachbar.biz
+ * @author Connor Doyle (connor@mesosphere.io)
+ * @author Florian Leibert (flo@mesosphere.io)
  */
 object Main extends App with Logger {
 
@@ -32,11 +33,11 @@ object Main extends App with Logger {
     "/usr/local/lib/libmesos.so").toString
   System.setProperty("java.library.path", javaLibPath)
 
-  val numberOfHwNodes = mesosConf.getOrElse("cassandra.noOfHwNodes", 1).toString.toInt
+  val numberOfHwNodes = mesosConf.getOrElse("elasticsearch.noOfHwNodes", 1).toString.toInt
 
-  val confServerPort = mesosConf.getOrElse("cassandra.confServer.port", 8282).toString.toInt
+  val confServerPort = mesosConf.getOrElse("elasticsearch.confServer.port", 8282).toString.toInt
 
-  val confServerHostName = mesosConf.getOrElse("cassandra.confServer.hostname",
+  val confServerHostName = mesosConf.getOrElse("elasticsearch.confServer.hostname",
     InetAddress.getLocalHost().getHostName()).toString
 
   // Find all resource.* settings in mesos.yaml and prep them for submission to Mesos
@@ -46,15 +47,14 @@ object Main extends App with Logger {
     case (k, v) => k.replaceAllLiterally("resource.", "") -> v.toString.toFloat
   }
 
-  //TODO erich load the Cassandra log4j-server.properties file
+  //TODO load the ElasticSearch log-properties file
   BasicConfigurator.configure()
   getRootLogger.setLevel(Level.INFO)
 
-  info("Starting Cassandra on Mesos.")
+  info("Starting ElasticSearch on Mesos.")
 
   // Instanciate framework and scheduler
-  val framework = FrameworkInfo("CassandraMesos")
-  val scheduler = new CassandraScheduler(masterUrl,
+  val scheduler = new ElasticSearchScheduler(masterUrl,
     execUri,
     confServerHostName,
     confServerPort,
@@ -65,10 +65,10 @@ object Main extends App with Logger {
   schedThred.start()
   scheduler.waitUnitInit
 
-  // Start serving the Cassandra config
+  // Start serving the ElasticMesos config
   val configServer = new ConfigServer(confServerPort, "conf", scheduler.nodeSet)
 
-  info("Cassandra nodes starting on: " + scheduler.nodeSet.mkString(","))
+  info("ElasticSearch nodes starting on: " + scheduler.nodeSet.mkString(","))
 
 }
 
