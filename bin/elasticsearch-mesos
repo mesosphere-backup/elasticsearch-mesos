@@ -5,7 +5,7 @@ FRAMEWORK_HOME=`dirname $0`/..
 CONFIG_DIR=$FRAMEWORK_HOME"/config"
 
 # Set the MESOS_NATIVE_LIBRARY based on mesos.yaml
-export MESOS_NATIVE_LIBRARY=$(sed -e 's/:[^:\/\/]/="/g;s/$/"/g;s/ *=/=/g' "$CONFIG_DIR"/mesos.yaml | tr -d $'\'' | grep -v \# | grep java.library.path | sed 's/java.library.path=//g;s/"//g')
+export MESOS_NATIVE_LIBRARY=$(sed -e 's/:[^:\/\/]/="/g;s/$/"/g;s/ *=/=/g' "$CONFIG_DIR"/mesos.yml | tr -d $'\'' | grep -v \# | grep java.library.path | sed 's/java.library.path=//g;s/"//g')
 
 for jar in "$FRAMEWORK_HOME"/lib/*.jar; do
     CLASSPATH="$CLASSPATH:$jar"
