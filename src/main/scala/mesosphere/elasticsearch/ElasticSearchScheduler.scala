@@ -72,9 +72,9 @@ class ElasticSearchScheduler(masterUrl: String,
       .addUris(CommandInfo.URI.newBuilder.setValue(execUri))
       .setValue(s"cd elasticsearch-mesos* && " +
       s"cd config && rm elasticsearch.yml " +
-      s"&& wget http://${confServerHostName}:${confServerPort}/elasticsearch.yml " +
+      s"&& curl -sSfLO http://${confServerHostName}:${confServerPort}/elasticsearch.yml " +
       s"&& rm logging.yml " +
-      s"&& wget http://${confServerHostName}:${confServerPort}/logging.yml " +
+      s"&& curl -sSfLO http://${confServerHostName}:${confServerPort}/logging.yml " +
       s"&& cd .. " +
       s"&& bin/elasticsearch -f")
 
