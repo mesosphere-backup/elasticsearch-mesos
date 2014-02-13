@@ -20,12 +20,13 @@ The driver will do all the heavy lifting like downloading Elasticsearch to the w
 1. Untar it onto the driver machine   
    ```tar xzf es-mesos-*.tgz```
 
-1. Edit ```conf/mesos.yaml``` and replace it with your Mesos settings.
+1. Edit ```config/mesos.yaml``` and replace it with your Mesos settings.
 
-1. Edit ```conf/elasticsearch.yaml``` and replace it with your Elasticsearch settings.
+1. Edit ```config/elasticsearch.yaml``` and replace it with your Elasticsearch settings.
 
 1. Start the driver to initiate launching Elasticsearch on Mesos    
-   `bin/elasticsearch-mesos`
+
+        bin/elasticsearch-mesos
 
 ## Configuration Values
 
