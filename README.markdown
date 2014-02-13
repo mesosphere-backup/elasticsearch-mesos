@@ -1,7 +1,5 @@
 # elasticsearch-mesos
 
-## Overview
-
 This Apache Mesos framework allows you to utilize your Mesos cluster to run Elasticsearch.
 
 The framework is composed of a Driver node and a set of slaves.
