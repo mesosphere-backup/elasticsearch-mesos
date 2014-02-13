@@ -8,7 +8,7 @@ The driver will do all the heavy lifting like downloading Elasticsearch to the w
 
 ## Prerequisites
 
-- Access to a cluster running Apache Mesos version `0.15.0`+
+- An Apache Mesos cluster running version 0.15.0+
 - Java
 - Maven
 - wget
@@ -30,30 +30,30 @@ The driver will do all the heavy lifting like downloading Elasticsearch to the w
 
 ## Configuration Values
 
-### mesos.executor.uri
+##### mesos.executor.uri
 Adjust this if you want the nodes to retrieve the distribution from somewhere else
 
 Default: ```http://downloads.mesosphere.io/elasticsearch/elasticsearch-mesos-0.90.10-1.tgz```
 
-#### mesos.master.url
+##### mesos.master.url
 
 Change this setting to point to your Mesos Master. The default works for a local Mesos install.
 
 Default: ```zk://localhost:2181/mesos```
 
-#### java.library.path
+##### java.library.path
 
 Change this to the path to where the mesos native library is installed.
 
 Default: ```/usr/local/lib```
 
-#### elasticsearch.noOfHwNodes
+##### elasticsearch.noOfHwNodes
 
 How many hardware nodes we want to run this cluster on.  This prevents multiple nodes from the same cluster to run on a single physical node.
 
 Default: ```1```
 
-#### resource.*
+##### resource.*
 The specified resources will be relayed to Mesos to find suitable machines. The configuration file lists ```cpu```, ```mem``` and ```disk```, but really anything you specify will be relayed to Mesos as a scalar value when requesting resources.
 
 Defaults:  ```resource.cpu:1.0```, ```resource.mem: 2048```, ```resource.disk: 1000```
@@ -69,7 +69,3 @@ Currently the driver does not deal with cluster failure in an intelligent manner
 ## Versioning
 
 elasticsearch-mesos uses the version of the embedded Elasticsearch as the first 3 version numbers. The last and 4th version number is the version of elasticsearch-mesos.
-
-
-
-
