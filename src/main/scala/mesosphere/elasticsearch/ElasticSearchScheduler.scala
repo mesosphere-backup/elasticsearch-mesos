@@ -8,7 +8,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import java.util.concurrent.CountDownLatch
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.{TimeZone, Date}
 
 /**
  * Mesos scheduler for ElasticSearch
@@ -29,7 +29,8 @@ class ElasticSearchScheduler(masterUrl: String,
   val taskSet = mutable.Set[Task]()
 
   // Using a format without colons because task IDs become paths, and colons in paths break the JVM's CLASSPATH
-  val isoDateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
+  val isoDateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss.SSS'Z'")
+  isoDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
 
 
   def error(driver: SchedulerDriver, message: String) {
@@ -104,7 +105,7 @@ class ElasticSearchScheduler(masterUrl: String,
 
         info("Accepted offer: " + offer.getHostname)
 
-        val id = "elasticsearch_" + isoDateFormat.format(new Date)
+        val id = s"elasticsearch_${offer.getHostname}_${isoDateFormat.format(new Date())}"
 
         val task = TaskInfo.newBuilder
           .setCommand(cmd)
