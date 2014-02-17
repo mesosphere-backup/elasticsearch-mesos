@@ -15,7 +15,7 @@ wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearc
 tar xzf elasticsearch-*.tar.gz
 rm elasticsearch-*tar.gz
 
-mv elasticsearch-* elasticsearch-mesos-${PROJVERSION}
+mv elasticsearch-${ESVERSION} elasticsearch-mesos-${PROJVERSION}
 
 cp bin/* elasticsearch-mesos-${PROJVERSION}/bin
 chmod u+x elasticsearch-mesos-${PROJVERSION}/bin/*

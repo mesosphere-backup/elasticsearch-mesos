@@ -17,7 +17,7 @@
         <!-- language & dependency versions -->
         <java.abi>1.6</java.abi>
         <scala.version>2.10.3</scala.version>
-        <elasticsearch.version>0.90.10</elasticsearch.version>
+        <elasticsearch.version>1.0.0</elasticsearch.version>
         <mesos.version>0.15.0</mesos.version>
         <logback.version>1.0.9</logback.version>
 
