@@ -8,7 +8,7 @@ import scala.io.Source
 import scala.collection.mutable
 import java.net.URI
 
-class ConfigServer(port: Int, configDir: String, seedNodes: mutable.Set[String]) extends Logger {
+class ConfigServer(port: Int, configDir: String, scheduler: ElasticSearchScheduler) extends Logger {
 
   val server = new Server(port)
   server.setHandler(new ServeConfigHandler)
@@ -32,7 +32,7 @@ class ConfigServer(port: Int, configDir: String, seedNodes: mutable.Set[String])
       }
 
       val fileContent = Source.fromFile(confFile).getLines()
-
+      val seedNodes = scheduler.taskSet.map(_.hostname)
       val substitutedContent = fileContent.map {
         _.replaceAllLiterally("${seedNodes}", seedNodes
           .mkString(","))

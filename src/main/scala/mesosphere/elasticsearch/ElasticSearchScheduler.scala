@@ -7,6 +7,8 @@ import org.apache.mesos.{Protos, MesosSchedulerDriver, SchedulerDriver, Schedule
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import java.util.concurrent.CountDownLatch
+import java.text.SimpleDateFormat
+import java.util.Date
 
 /**
  * Mesos scheduler for ElasticSearch
@@ -22,9 +24,13 @@ class ElasticSearchScheduler(masterUrl: String,
                          numberOfHwNodes: Int)
   extends Scheduler with Runnable with Logger {
 
-  var initialized = new CountDownLatch(1)
+  val initialized = new CountDownLatch(1)
 
-  var nodeSet = mutable.Set[String]()
+  val taskSet = mutable.Set[Task]()
+
+  // Using a format without colons because task IDs become paths, and colons in paths break the JVM's CLASSPATH
+  val isoDateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
+
 
   def error(driver: SchedulerDriver, message: String) {
     error(message)
@@ -44,7 +50,7 @@ class ElasticSearchScheduler(masterUrl: String,
   }
 
   def disconnected(driver: SchedulerDriver) {
-    //TODO erich implement
+    warn("Disconnected")
   }
 
   def frameworkMessage(driver: SchedulerDriver, executorId: ExecutorID, slaveId: SlaveID, data: Array[Byte]) {
@@ -53,11 +59,18 @@ class ElasticSearchScheduler(masterUrl: String,
   }
 
   def statusUpdate(driver: SchedulerDriver, status: TaskStatus) {
-    debug(s"received status update $status")
+    info(s"received status update $status")
+
+    status.getState match {
+      case TaskState.TASK_FAILED | TaskState.TASK_FINISHED |
+        TaskState.TASK_KILLED | TaskState.TASK_LOST =>
+        taskSet.find(_.taskId == status.getTaskId.getValue).foreach(taskSet.remove)
+      case _ =>
+    }
   }
 
   def offerRescinded(driver: SchedulerDriver, offerId: OfferID) {
-    //TODO Implement
+    warn(s"Offer ${offerId.getValue} rescinded")
   }
 
   // Blocks with CountDown latch until we have enough seed nodes.
@@ -86,12 +99,12 @@ class ElasticSearchScheduler(masterUrl: String,
     // Let's make sure we don't start multiple ElasticSearches from the same cluster on the same box.
     // We can't hand out the same port multiple times.
     for (offer <- offers.asScala) {
-      if (isOfferGood(offer) && !haveEnoughNodes()) {
+      if (isOfferGood(offer) && !haveEnoughNodes) {
         debug(s"offer $offer")
 
         info("Accepted offer: " + offer.getHostname)
 
-        val id = "task" + System.currentTimeMillis()
+        val id = "elasticsearch_" + isoDateFormat.format(new Date)
 
         val task = TaskInfo.newBuilder
           .setCommand(cmd)
@@ -102,7 +115,7 @@ class ElasticSearchScheduler(masterUrl: String,
           .build
 
         driver.launchTasks(offer.getId, List(task).asJava)
-        nodeSet += offer.getHostname
+        taskSet += Task(id, offer.getHostname)
       } else {
         debug("Rejecting offer " + offer.getHostname)
         driver.declineOffer(offer.getId)
@@ -110,13 +123,13 @@ class ElasticSearchScheduler(masterUrl: String,
     }
 
     // If we have at least one node the assumption is that we are good to go.
-    if (nodeSet.size == numberOfHwNodes) initialized.countDown()
-
+    if (haveEnoughNodes)
+      initialized.countDown()
   }
 
 
-  def haveEnoughNodes() = {
-    nodeSet.size == numberOfHwNodes
+  def haveEnoughNodes = {
+    taskSet.size == numberOfHwNodes
   }
 
   // Check if offer is reasonable
@@ -130,8 +143,8 @@ class ElasticSearchScheduler(masterUrl: String,
     // Make a list of resources we need
     val requiredRes = resources.toList
 
-    info("resources offered: " + offeredRes)
-    info("resources required: " + requiredRes)
+    debug("resources offered: " + offeredRes)
+    debug("resources required: " + requiredRes)
 
     // creates map structure: resourceName, List(offer, required) and
     val resCompList = (offeredRes ++ requiredRes)
@@ -152,7 +165,7 @@ class ElasticSearchScheduler(masterUrl: String,
 
     // don't start the same framework multiple times on the same host and
     // make sure we got all resources we asked for
-    !nodeSet.contains(offer.getHostname) && offersTooSmall == 0
+    taskSet.forall(_.hostname != offer.getHostname) && offersTooSmall == 0
   }
 
   def reregistered(driver: SchedulerDriver, masterInfo: MasterInfo) {
@@ -189,5 +202,7 @@ class ElasticSearchScheduler(masterUrl: String,
       .addRange(Value.Range.newBuilder().setBegin(start).setEnd(end)))
       .build
   }
+
+  case class Task(taskId: String, hostname: String)
 
 }
