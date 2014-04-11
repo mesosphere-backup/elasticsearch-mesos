@@ -60,7 +60,7 @@ Defaults:  ```resource.cpu:1.0```, ```resource.mem: 2048```, ```resource.disk: 1
 
 ## Building
 
-Execute ```./build.sh``` to download all dependencies including Elasticsearch, compile the code and make the distribution.
+Execute `bin/build` to download all dependencies including Elasticsearch, compile the code and make the distribution.
 
 ## Known Limitations
 
