@@ -10,6 +10,7 @@
 
     <properties>
         <mesos-utils.version>0.0.6</mesos-utils.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Elasticsearch Mesos version. Looks like a build number from Maven's perspective-->
         <elasticsearch-mesos.version>1</elasticsearch-mesos.version>
