@@ -15,7 +15,7 @@
 log/
 target/
 
-# es mesos distro
+# Elastic Search Mesos distro
 elasticsearch-mesos-*
 
 # backup files
