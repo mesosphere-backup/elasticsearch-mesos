@@ -8,7 +8,7 @@ java.library.path: '/usr/local/lib'
 
 # No of HW nodes we want it to run on
 # Driver will block until we have enough nodes
-# (We can't start multiple Cassandra nodes of the same cluster on the same HW node due to port conflicts)
+# (We can't start multiple Elastic Search nodes of the same cluster on the same HW node due to port conflicts)
 elasticsearch.noOfHwNodes: 1
 
 # Mesos resource requests
