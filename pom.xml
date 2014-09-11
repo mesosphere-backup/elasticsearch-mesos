@@ -9,16 +9,16 @@
     <version>${elasticsearch.version}-${mesos.version}-${elasticsearch-mesos.version}</version>
 
     <properties>
-        <mesos-utils.version>0.0.6</mesos-utils.version>
+        <mesos-utils.version>0.19.0-1</mesos-utils.version>
 
         <!-- Elasticsearch Mesos version. Looks like a build number from Maven's perspective-->
         <elasticsearch-mesos.version>1</elasticsearch-mesos.version>
 
         <!-- language & dependency versions -->
-        <java.abi>1.6</java.abi>
+        <java.abi>1.7</java.abi>
         <scala.version>2.10.4</scala.version>
-        <elasticsearch.version>1.1.0</elasticsearch.version>
-        <mesos.version>0.18.0</mesos.version>
+        <elasticsearch.version>1.2.1</elasticsearch.version>
+        <mesos.version>0.19.0</mesos.version>
         <logback.version>1.0.9</logback.version>
 
     </properties>
@@ -41,7 +41,7 @@
 
         <dependency>
             <groupId>mesosphere</groupId>
-            <artifactId>mesos-utils</artifactId>
+            <artifactId>mesos-utils_2.10</artifactId>
             <version>${mesos-utils.version}</version>
         </dependency>
 
@@ -111,7 +111,7 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>3.1.5</version>
+                <version>3.1.6</version>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>

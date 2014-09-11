@@ -1,7 +1,6 @@
 package mesosphere.elasticsearch
 
 import java.util
-import mesosphere.mesos.util.{FrameworkInfo, ScalarResource}
 import org.apache.mesos.Protos._
 import org.apache.mesos.{Protos, MesosSchedulerDriver, SchedulerDriver, Scheduler}
 import scala.collection.JavaConverters._
@@ -92,9 +91,15 @@ class ElasticSearchScheduler(masterUrl: String,
       s"&& cd .. " +
       s"&& bin/elasticsearch -f")
 
+
+
     // Create all my resources
     val res = resources.map {
-      case (k, v) => ScalarResource(k, v).toProto
+      case (k, v) => Resource.newBuilder()
+        .setName(k)
+        .setType(Value.Type.SCALAR)
+        .setScalar(Value.Scalar.newBuilder().setValue(v).build())
+        .build()
     }
 
     // Let's make sure we don't start multiple ElasticSearches from the same cluster on the same box.
@@ -176,8 +181,14 @@ class ElasticSearchScheduler(masterUrl: String,
   def registered(driver: SchedulerDriver, frameworkId: FrameworkID, masterInfo: MasterInfo) {
     info(s"Framework registered as ${frameworkId.getValue}")
 
+    val cpuResource = Resource.newBuilder()
+      .setName("cpus")
+      .setType(Value.Type.SCALAR)
+      .setScalar(Value.Scalar.newBuilder().setValue(1.0).build())
+      .build()
+
     val request = Request.newBuilder()
-      .addResources(ScalarResource("cpus", 1.0).toProto)
+      .addResources(cpuResource)
       .build()
 
     val r = new util.ArrayList[Protos.Request]
@@ -188,8 +199,7 @@ class ElasticSearchScheduler(masterUrl: String,
 
   def run() {
     info("Starting up...")
-    val driver = new MesosSchedulerDriver(this, FrameworkInfo("ElasticSearch")
-      .toProto, masterUrl)
+    val driver = new MesosSchedulerDriver(this, FrameworkInfo.newBuilder().setUser("").setName("ElasticSearch").build(), masterUrl)
 
     driver.run().getValueDescriptor.getFullName
   }
