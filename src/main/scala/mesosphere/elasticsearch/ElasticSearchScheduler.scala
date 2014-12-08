@@ -90,7 +90,7 @@ class ElasticSearchScheduler(masterUrl: String,
       s"&& rm logging.yml " +
       s"&& curl -sSfLO http://${confServerHostName}:${confServerPort}/logging.yml " +
       s"&& cd .. " +
-      s"&& bin/elasticsearch -f")
+      s"&& bin/elasticsearch")
 
 
 
