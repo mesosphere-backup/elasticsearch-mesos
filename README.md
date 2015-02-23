@@ -6,6 +6,11 @@ The framework is composed of a Driver node and a set of slaves.
 
 The driver will do all the heavy lifting like downloading Elasticsearch to the worker nodes, making the cluster configuration available to the slaves via HTTP, and monitoring the instances. It will automatically modify the configuration files to include the known Elasticsearch instances to be used for unicast peer discovery via a template variable.
 
+## Proof of Concept
+
+This is currently a proof of concept to show Elasticsearch running natively on Mesos.
+Don't use it in production! We'd love help from the community to make it production grade.
+
 ## Prerequisites
 
 - An Apache Mesos cluster running version 0.15.0+
