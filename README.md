@@ -1,4 +1,8 @@
-# elasticsearch-mesos
+## End of Life
+
+This proof of concept has been superseeded by [https://github.com/mesos/elasticsearch](https://github.com/mesos/elasticsearch).
+
+## elasticsearch-mesos
 
 This Apache Mesos framework allows you to utilize your Mesos cluster to run Elasticsearch.
 
