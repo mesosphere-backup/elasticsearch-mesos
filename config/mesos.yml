@@ -13,5 +13,5 @@ elasticsearch.noOfHwNodes: 1
 
 # Mesos resource requests
 resource.cpus: 1.0
-resource.mem: 2048
+resource.mem: 500
 resource.disk: 1000
