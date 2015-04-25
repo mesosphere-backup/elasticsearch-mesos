@@ -58,7 +58,7 @@ Default: ```/usr/local/lib```
 
 ##### elasticsearch.noOfHwNodes
 
-How many hardware nodes we want to run this cluster on.  This prevents multiple nodes from the same cluster to run on a single physical node.
+How many hardware nodes we want to run this cluster on.  This prevents multiple mesos nodes from running on a single physical node.
 
 Default: ```1```
 

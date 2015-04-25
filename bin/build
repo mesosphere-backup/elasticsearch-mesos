@@ -1,8 +1,8 @@
 #!/bin/bash -x
 
 # Our elasticsearch-mesos project version follows the Elasticsearch version number
-PROJVERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[')
-ESVERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=elasticsearch.version | grep -v '\[')
+PROJVERSION=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\['`
+ESVERSION=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=elasticsearch.version | grep -v '\['`
 
 echo Building Elasticsearch $ESVERSION for Mesos
 
