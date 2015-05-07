@@ -1,0 +1,4 @@
+before_install: 
+  - sudo add-apt-repository -y ppa:ubuntu-cloud-archive/icehouse-staging
+  
+install: bin/build

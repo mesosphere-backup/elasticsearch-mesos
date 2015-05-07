@@ -43,6 +43,12 @@ object Main extends App with Logger {
     case (k, v) => k.replaceAllLiterally("resource.", "") -> v.toString.toFloat
   }
 
+  val requestedAttributes = mesosConf.filter {
+    _._1.startsWith("attribute.")
+  }.map {
+    case (k, v) => k.replaceAllLiterally("attribute.", "") -> v.toString
+  }
+
   //TODO load the ElasticSearch log-properties file
   BasicConfigurator.configure()
   getRootLogger.setLevel(Level.INFO)
@@ -55,7 +61,8 @@ object Main extends App with Logger {
     confServerHostName,
     confServerPort,
     resources,
-    numberOfHwNodes)
+    numberOfHwNodes,
+    requestedAttributes)
 
   val schedThred = new Thread(scheduler)
   schedThred.start()

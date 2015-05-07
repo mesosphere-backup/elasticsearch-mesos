@@ -20,7 +20,8 @@ class ElasticSearchScheduler(masterUrl: String,
                          confServerHostName: String,
                          confServerPort: Int,
                          resources: mutable.Map[String, Float],
-                         numberOfHwNodes: Int)
+                         numberOfHwNodes: Int,
+                         requestedAttributes: mutable.Map[String, String])
   extends Scheduler with Runnable with Logger {
 
   val initialized = new CountDownLatch(1)
@@ -89,7 +90,7 @@ class ElasticSearchScheduler(masterUrl: String,
       s"&& rm logging.yml " +
       s"&& curl -sSfLO http://${confServerHostName}:${confServerPort}/logging.yml " +
       s"&& cd .. " +
-      s"&& bin/elasticsearch -f")
+      s"&& bin/elasticsearch")
 
 
 
@@ -141,6 +142,22 @@ class ElasticSearchScheduler(masterUrl: String,
   // Check if offer is reasonable
   def isOfferGood(offer: Offer) = {
 
+    // First of all check if we have all the requested 
+    // attributes in the offer.
+    // To do so we make sure the intersection of the
+    // offered and required attributes is actually 
+    // equal to the required attributes themselves.
+    val offeredAttributes = offer.getAttributesList.asScala.toList.map {
+      k => (k.getName, k.getText.getValue)
+    }.toSet
+
+    val requiredAttrs = requestedAttributes.toSet
+    val hasAllAttributes = offeredAttributes.intersect(requiredAttrs) == requiredAttrs
+
+    debug("attributes offered: " + offeredAttributes)
+    debug("attributes required: " + requiredAttrs)
+
+
     // Make a list of offered resources
     val offeredRes = offer.getResourcesList.asScala.toList.map {
       k => (k.getName, k.getScalar.getValue)
@@ -170,8 +187,8 @@ class ElasticSearchScheduler(masterUrl: String,
     }.size
 
     // don't start the same framework multiple times on the same host and
-    // make sure we got all resources we asked for
-    taskSet.forall(_.hostname != offer.getHostname) && offersTooSmall == 0
+    // make sure we got all resources and attributes we asked for
+    taskSet.forall(_.hostname != offer.getHostname) && offersTooSmall == 0 && hasAllAttributes
   }
 
   def reregistered(driver: SchedulerDriver, masterInfo: MasterInfo) {
